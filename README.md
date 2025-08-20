@@ -24,9 +24,10 @@
 **사용 예시**
 ```csharp
 var alloc = new StackAllocator(1024);
+int marker = alloc.Marker;
 var span = alloc.AllocElements<int>(10);
 // ... 사용 ...
-alloc.Free(alloc.Marker); // 롤백
+alloc.Free(marker); // 롤백
 alloc.Clear(); // 전체 해제
 ```
 
@@ -56,11 +57,13 @@ alloc.Clear(); // 전체 해제
 **사용 예시**
 ```csharp
 var alloc = new DualStackAllocator(1024);
+int upMarker = alloc.UpMarker;
+int downMarker = alloc.DownMarker;
 var up = alloc.AllocUpElements<int>(10);
 var down = alloc.AllocDownElements<byte>(20);
 // ... 사용 ...
-alloc.FreeUp(alloc.UpMarker); // Up 롤백
-alloc.FreeDown(alloc.DownMarker); // Down 롤백
+alloc.FreeUp(upMarker); // Up 롤백
+alloc.FreeDown(downMarker); // Down 롤백
 alloc.Clear(); // 전체 해제
 ```
 
